@@ -7,15 +7,17 @@ class FullScreenWidget extends StatelessWidget {
       {required this.child,
       this.backgroundColor = Colors.black,
       this.backgroundIsTransparent = true,
+      this.backgroundOpacity = 1.0,
       this.disposeLevel});
 
   final Widget child;
   final Color backgroundColor;
   final bool backgroundIsTransparent;
+  final double backgroundOpacity;
   final DisposeLevel? disposeLevel;
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -31,6 +33,7 @@ class FullScreenWidget extends StatelessWidget {
                     backgroundColor: backgroundColor,
                     backgroundIsTransparent: backgroundIsTransparent,
                     disposeLevel: disposeLevel,
+                    backgroundOpacity: backgroundOpacity,
                   );
                 }));
       },
@@ -46,10 +49,12 @@ class FullScreenPage extends StatefulWidget {
       {required this.child,
       this.backgroundColor = Colors.black,
       this.backgroundIsTransparent = true,
+      this.backgroundOpacity = 1.0,
       this.disposeLevel = DisposeLevel.Medium});
 
   final Widget child;
   final Color backgroundColor;
+  final double backgroundOpacity;
   final bool backgroundIsTransparent;
   final DisposeLevel? disposeLevel;
 
@@ -129,18 +134,16 @@ class _FullScreenPageState extends State<FullScreenPage> {
         positionYDelta = 0;
       });
 
-      Future.delayed(animationDuration).then((_){
+      Future.delayed(animationDuration).then((_) {
         setState(() {
           animationDuration = Duration.zero;
         });
       });
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-    print(opacity);
     return Scaffold(
       backgroundColor: widget.backgroundIsTransparent
           ? Colors.transparent
@@ -150,7 +153,7 @@ class _FullScreenPageState extends State<FullScreenPage> {
         onVerticalDragUpdate: (details) => _whileVerticalDrag(details),
         onVerticalDragEnd: (details) => _endVerticalDrag(details),
         child: Container(
-          color: widget.backgroundColor.withOpacity(opacity),
+          color: widget.backgroundColor.withOpacity(opacity*widget.backgroundOpacity),
           constraints: BoxConstraints.expand(
             height: MediaQuery.of(context).size.height,
           ),
