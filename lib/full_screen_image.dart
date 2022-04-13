@@ -140,6 +140,7 @@ class _FullScreenPageState extends State<FullScreenPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(opacity);
     return Scaffold(
       backgroundColor: widget.backgroundIsTransparent
           ? Colors.transparent
